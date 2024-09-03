@@ -1,1 +1,1 @@
-https://blogging-website.netlify.app/
+https://blogging-webiste.netlify.app/
