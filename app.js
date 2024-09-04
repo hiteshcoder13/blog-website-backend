@@ -105,7 +105,7 @@ app.post('/message', async (req, res) => {
 
 
 
-app.post('/upload', upload.single('image'), async (req, res) => {
+app.post('/upload',async (req, res) => {
     try {
       const text = req.body.inputText;
       const email= req.body.email;
@@ -115,13 +115,11 @@ app.post('/upload', upload.single('image'), async (req, res) => {
         name:name,
         email:email,
         text:text,
-        filename: req.file.filename,
-        path: req.file.path,
-        contentType: req.file.mimetype,
+      
       });
   
       await newImage.save();
-      res.json({ message: newImage.path });
+      res.json({ message: newImage});
     } catch (error) {
       console.error('Error saving image:', error);
       res.status(500).json({ message: 'Failed to upload image' });
