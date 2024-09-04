@@ -127,29 +127,25 @@ app.post('/upload', upload.single('image'), async (req, res) => {
       res.status(500).json({ message: 'Failed to upload image' });
     }
   })
-  app.patch('/addcomment/:id', async (req, res) => {
+ app.patch('/addcomment/:id', async (req, res) => {
     try {
         const { id } = req.params; // Get the ID from the URL params
-        const { newcomment,commentemail } = req.body; // Get the new data from the request body
+        const { newComment, commentemail } = req.body; // Get the new data from the request body
 
         // Find the document by ID and update it
         const updatedDocument = await collection2.findByIdAndUpdate(
             id,
-            { $push: { comments: newcomment } }, // Push the new data to the array
+            { $push: { comments: newComment } }, // Push the new data to the array
             { new: true, useFindAndModify: false } // Return the updated document
         );
 
-
         const updateDocument = await collection2.findByIdAndUpdate(
-          id,
-          { $push: { commentemail: commentemail } }, // Push the new data to the array
-          { new: true, useFindAndModify: false } // Return the updated document
-      );
-      if (!updateDocument) {
-        return res.status(404).json({ error: 'Document not found' });
-    }
+            id,
+            { $push: { commentemail: commentemail } }, // Push the new data to the array
+            { new: true, useFindAndModify: false } // Return the updated document
+        );
 
-        if (!updatedDocument) {
+        if (!updatedDocument || !updateDocument) {
             return res.status(404).json({ error: 'Document not found' });
         }
 
